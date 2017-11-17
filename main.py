@@ -1,4 +1,5 @@
 import pygame
+import os
 pygame.init()
 
 # -------- Global Variables -----------
@@ -21,6 +22,18 @@ moveDown = False
 playerX = 0
 playerY = 0
 playerMovSpeed = 5
+
+# -------- Global Functions -----------
+_image_library = {}
+def get_image(path):
+        global _image_library
+        image = _image_library.get(path)
+        if image == None:
+                canonicalized_path = path.replace('/', os.sep).replace('\\', os.sep)
+                image = pygame.image.load(canonicalized_path)
+                _image_library[path] = image
+        return image
+
 
 # -------- Initialize Game -----------
 
@@ -61,11 +74,16 @@ while running:
     if moveUp:    playerY -= playerMovSpeed
     if moveDown:  playerY += playerMovSpeed
 
+    print("Player X: " + str(playerX))
+    print("Player Y:" + str(playerY))
+    print("")
+
     # --- Drawing Logic ---
     # Set BG colour to white
     mainScreen.fill(BGCOLOUR)
 
-    pygame.draw.rect(mainScreen, RED, pygame.Rect(playerX, playerY, 60, 60))
+    #pygame.draw.rect(mainScreen, GREEN, pygame.Rect(playerX, playerY, 60, 60))
+    mainScreen.blit(get_image('.\\assets\\player.png'), (playerX, playerY))
 
     # Update screen
     pygame.display.flip()
