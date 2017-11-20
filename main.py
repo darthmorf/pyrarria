@@ -1,6 +1,7 @@
 import pygame
 import utils
 import player
+import tiles
 
 pygame.init()
 
@@ -22,6 +23,7 @@ pygame.display.set_caption("Cool game")
 
 #initialize player
 player = player.Player(mainScreen)
+tile01 = tiles.Dirt(mainScreen)
 
 running = True
  
@@ -65,13 +67,14 @@ while running:
 
     #draw player
     player.update()
+    tile01.update()
 
     # Update screen
     pygame.display.flip()
      
     # Set Framerate to 60fps
     clock.tick(60)
-    
-     
+
+
 #Once we have exited the main program loop we can stop the game engine:
 pygame.quit()
