@@ -1,5 +1,6 @@
 import pygame
 import utils
+from random import randint
 
 class Tile():
 	x = 0
@@ -24,7 +25,8 @@ class Tile():
 class Dirt(Tile):
 
 	def __init__(self, screen, x, y):
-		super().__init__(screen, ".\\assets\\dirt01.png", x, y)
+		spriteVariant = randint(1, 3)
+		super().__init__(screen, ".\\assets\\dirt0" + str(spriteVariant) + ".png", x, y)
 		
 
 
