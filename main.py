@@ -23,7 +23,9 @@ pygame.display.set_caption("Cool game")
 
 #initialize player
 player = player.Player(mainScreen)
-tile01 = tiles.Dirt(mainScreen)
+
+#generate tiles
+tileGrid = tiles.GenerateTiles(mainScreen)
 
 running = True
  
@@ -67,7 +69,9 @@ while running:
 
     #draw player
     player.update()
-    tile01.update()
+    
+    #draw tiles
+    tiles.DrawTiles(tileGrid)
 
     # Update screen
     pygame.display.flip()
