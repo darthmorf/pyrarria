@@ -16,10 +16,9 @@ class Player():
 	def __init__(self, screen):
 		# Call pygame sprite init method
 		super().__init__()
-		self.screen = screen		
-        
-		# Fetch the rectangle object that has the dimensions of the image.
-		#self.rect = self.image.get_rect()
+		self.screen = screen
+		self.image = pygame.image.load(".\\assets\\player.png", ).convert_alpha() #load a sprite image
+		self.rect = self.image.get_rect() # set collision rectangle		
 
 	def update(self):
-		self.screen.blit(utils.get_image('.\\assets\\player.png'), (self.x, self.y))
+		self.screen.blit(self.image, (self.x, self.y))
