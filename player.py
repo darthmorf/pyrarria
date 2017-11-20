@@ -1,17 +1,25 @@
 import pygame
+import utils
 
-class Sprite(pygame.sprite.Sprite):
-	def __init__(self, bgColor, width, height, asset):
+class Player():
+	x = 0
+	y = 0
+	moveSpeed = 5
+
+	moveRight = False
+	moveLeft = False
+	moveUp = False
+	moveDown = False
+
+	screen = ""
+
+	def __init__(self, screen):
 		# Call pygame sprite init method
 		super().__init__()
-
-		# Pass in the color of the sprite, and its x and y position, width and height.
-        # Set the background color and set it to be transparent
-		self.image = pygame.Surface([width, height])
-		self.image.fill(bgColor)
-		self.image.set_colorkey(bgColor)
+		self.screen = screen		
         
-		#self.image = pygame.image.load(asset).convert_alpha()
- 
-        # Fetch the rectangle object that has the dimensions of the image.
-		self.rect = self.image.get_rect()
+		# Fetch the rectangle object that has the dimensions of the image.
+		#self.rect = self.image.get_rect()
+
+	def update(self):
+		self.screen.blit(utils.get_image('.\\assets\\player.png'), (self.x, self.y))
