@@ -19,7 +19,7 @@ BGCOLOUR = (153, 255, 255)
 # Open main game window
 size = (1280, 720)
 mainScreen = pygame.display.set_mode(size)
-pygame.display.set_caption("Cool game")
+pygame.display.set_caption("Pyrarria")
 
 #initialize player
 player = player.Player(mainScreen)
