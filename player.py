@@ -3,13 +3,19 @@ import utils
 
 class Player():
 	x = 0
-	y = 0	
+	y = 0
 	moveSpeed = 5
+	gravitySpeed = 5
+
+	jumpSpeed = 5
+	jumpSpeedTracker = jumpSpeed
+	jumpHeight = 70
+	jumpHeightTracker = 0
+
 
 	moveRight = False
 	moveLeft = False
-	moveUp = False
-	moveDown = False
+	jumping = False
 
 	screen = ""
 
@@ -20,5 +26,6 @@ class Player():
 		self.image = pygame.image.load(".\\assets\\player.png", ).convert_alpha() #load a sprite image
 		self.rect = self.image.get_rect() # set collision rectangle		
 
-	def update(self):
-		return self.screen.blit(self.image, (self.x, self.y))
+	def updatePos(self):
+		self.rect.x = self.x
+		self.rect.y = self.y
