@@ -32,6 +32,11 @@ running = True
 # Clock is used to control how fast the screen updates
 clock = pygame.time.Clock()
 
+#draw stuff for the first tim
+mainScreen.fill(BGCOLOUR)
+player.update()
+tiles.DrawTiles(tileGrid)
+pygame.display.flip()
 
 # -------- Main Program Loop -----------
 while running:
@@ -54,27 +59,22 @@ while running:
             if event.key == pygame.K_s: player.moveDown = False
  
     # --- Game logic ---
+    drawList = []
+    drawList.append(player.update())
+    mainScreen.fill(BGCOLOUR)
+    
     if player.moveRight: player.x += player.moveSpeed
     if player.moveLeft:  player.x -= player.moveSpeed
     if player.moveUp:    player.y -= player.moveSpeed
     if player.moveDown:  player.y += player.moveSpeed
 
-    print("Player X: " + str(player.x))
-    print("Player Y:" +  str(player.y))
-    print("")
-
-    # --- Drawing Logic ---
-    # Set BG colour to white
-    mainScreen.fill(BGCOLOUR)
-
-    #draw player
-    player.update()
+    drawList.append(player.update())
     
-    #draw tiles
-    tiles.DrawTiles(tileGrid)
+
+    # --- Drawing Logic ---    
 
     # Update screen
-    pygame.display.flip()
+    pygame.display.update(drawList)
      
     # Set Framerate to 60fps
     clock.tick(60)

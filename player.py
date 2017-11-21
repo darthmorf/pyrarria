@@ -3,7 +3,7 @@ import utils
 
 class Player():
 	x = 0
-	y = 0
+	y = 0	
 	moveSpeed = 5
 
 	moveRight = False
@@ -21,4 +21,4 @@ class Player():
 		self.rect = self.image.get_rect() # set collision rectangle		
 
 	def update(self):
-		self.screen.blit(self.image, (self.x, self.y))
+		return self.screen.blit(self.image, (self.x, self.y))
