@@ -16,6 +16,7 @@ class Player():
 	moveRight = False
 	moveLeft = False
 	jumping = False
+	canJump = False
 
 	screen = ""
 

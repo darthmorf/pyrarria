@@ -50,7 +50,7 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_d: player.moveRight = True
             if event.key == pygame.K_a: player.moveLeft = True
-            if event.key == pygame.K_SPACE: player.jumping = True
+            if event.key == pygame.K_SPACE and player.canJump == True: player.jumping = True
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_d: player.moveRight = False
@@ -74,6 +74,9 @@ while running:
     if len(collidingTiles) > 0:
         player.y = collidingTiles[0].y - player.rect.height
         player.updatePos()
+        player.canJump = True
+    else:
+        player.canJump = False
 
     #movement logic
     if player.jumping == True:
