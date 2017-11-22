@@ -31,7 +31,11 @@ class Dirt(Tile):
 	def __init__(self, screen, x, y):
 		spriteVariant = randint(1, 3)
 		super().__init__(screen, ".\\assets\\dirt0" + str(spriteVariant) + ".png", x, y)
-		
+
+class Air(Tile):
+	def __init__(self, screen, x, y):
+		super().__init__(screen, ".\\assets\\air.png", x, y)
+	
 
 def generateTiles(screen):
 	tiles = []
