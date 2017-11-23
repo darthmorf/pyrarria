@@ -1,9 +1,8 @@
 import pygame
-import utils
 
 class Player():
 	x = 640
-	y = 360
+	y = 300
 	moveSpeed = 5
 	gravitySpeed = 5
 

@@ -6,8 +6,6 @@ import tiles
 pygame.init()
 
 # -------- Global Variables -----------
-cameraX = 0
-cameraY = 0
 
 # --- Colours ---
 BLACK = (0, 0, 0)
@@ -79,7 +77,7 @@ while running:
         player.canJump = True
     else:
         player.canJump = False
-
+        
     #movement logic
     if player.jumping == True:
         player.y -= player.jumpSpeedTracker
@@ -96,10 +94,10 @@ while running:
 
     #horizontal movement
     if player.moveRight: player.x += player.moveSpeed
-    if player.moveLeft:  player.x -= player.moveSpeed
+    if player.moveLeft: player.x -= player.moveSpeed
     player.updatePos()
 
-    #draw player in new position
+    #draw player
     drawList.append(mainSurface.blit(player.image, (player.x, player.y)))
 
     # --- Drawing Logic ---    
