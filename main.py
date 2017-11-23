@@ -6,7 +6,8 @@ import tiles
 pygame.init()
 
 # -------- Global Variables -----------
-
+cameraX = 0
+cameraY = 0
 
 # --- Colours ---
 BLACK = (0, 0, 0)
@@ -19,23 +20,24 @@ BGCOLOUR = (153, 255, 255)
 
 # Open main game window
 size = (1280, 720)
-mainScreen = pygame.display.set_mode(size)
+mainSurface = pygame.display.set_mode(size)
+tileSurface = mainSurface.subsurface((0, 0, 1280, 720))
 pygame.display.set_caption("Pyrarria")
 
 #initialize player
-player = player.Player(mainScreen)
+player = player.Player(mainSurface)
 
 #generate tiles
-tileGrid = tiles.generateTiles(mainScreen)
+tileGrid = tiles.generateTiles(tileSurface)
 
 running = True
  
-# Clock is used to control how fast the screen updates
+# Clock is used to control how fast the surface updates
 clock = pygame.time.Clock()
 
 #draw stuff for the first time
-mainScreen.fill(BGCOLOUR)
-mainScreen.blit(player.image, (player.x, player.y))
+mainSurface.fill(BGCOLOUR)
+mainSurface.blit(player.image, (player.x, player.y))
 tiles.drawTiles(tileGrid)
 pygame.display.flip()
 
@@ -62,7 +64,7 @@ while running:
     drawList = []
 
     #draw bg over player position
-    drawList.append(mainScreen.fill(BGCOLOUR, player.rect))
+    drawList.append(mainSurface.fill(BGCOLOUR, player.rect))
 
     # gravity effects
     if player.jumping == False:
@@ -98,12 +100,14 @@ while running:
     player.updatePos()
 
     #draw player in new position
-    drawList.append(mainScreen.blit(player.image, (player.x, player.y)))
+    drawList.append(mainSurface.blit(player.image, (player.x, player.y)))
 
     # --- Drawing Logic ---    
 
-    # Update screen
-    #tiles.tiles.update()
+    #update tile surface
+    drawList.append(mainSurface.blit(tileSurface.convert(), (0, 0)))
+
+    # Update main surface
     pygame.display.update(drawList)
      
     # Set Framerate to 60fps
