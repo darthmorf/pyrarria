@@ -3,24 +3,21 @@ import utils
 from random import randint
 
 class TileSurface():
-	x = 0
-	y = 0
 
 	tileGroup = pygame.sprite.Group()
 
 	tileGrid = []
 
-	def __init__(self, mainSurface, x, y):
+	def __init__(self, mainSurface, x, y, width, height):
 		self.x = x
 		self.y = y
-		self.surface = mainSurface.subsurface((0, 0, x, y))
+		self.width = width
+		self.height = height
+		self.surface = mainSurface.subsurface((x, y, width, height))
 
 	def updatePos(self, x, y):
-		x = int(x)
-		y = int(y)
-		self.surface.scroll(self.x + x, self.y + y)
-		self.x = x
-		self.y = y
+		self.x = self.x
+		self.y = self.y
 
 	def generateTiles(self):
 		tiles = []

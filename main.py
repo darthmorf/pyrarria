@@ -4,12 +4,8 @@ import player
 import tiles
 
 pygame.init()
-pygame.font.init()
 
 # -------- Global Variables -----------
-
-# --- Fonts ---
-arial = pygame.font.SysFont('Arial Rounded MT Bold', 30)
 
 # --- Colours ---
 BLACK = (0, 0, 0)
@@ -23,7 +19,7 @@ BGCOLOUR = (153, 255, 255)
 # Open main game window
 screenSize = (1280, 720)
 mainSurface = pygame.display.set_mode(screenSize)
-tileSurface = tiles.TileSurface(mainSurface, screenSize[0], screenSize[1])
+tileSurface = tiles.TileSurface(mainSurface, 0, 0, screenSize[0], screenSize[1])
 pygame.display.set_caption("Pyrarria")
 
 #initialize player
@@ -47,7 +43,8 @@ pygame.display.flip()
 while running:
     
     # --- Main event loop ---
-    for event in pygame.event.get(): # User did something
+    for event in pygame.event.get(): 
+    
         if event.type == pygame.QUIT: # If user clicked close
               running = False # Flag that we are done so we exit the game loop
 
@@ -107,7 +104,7 @@ while running:
     drawList.append(mainSurface.blit(player.image, (player.x, player.y)))
 
     #update tile surface
-    drawList.append(mainSurface.blit(tileSurface.surface.convert(), (0, 0)))
+    drawList.append(mainSurface.blit(tileSurface.surface.convert(), (tileSurface.x, tileSurface.y)))
 
     # Update main surface
     pygame.display.update(drawList)
