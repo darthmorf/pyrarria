@@ -17,13 +17,13 @@ BGCOLOUR = (153, 255, 255)
 # -------- Initialize Game -----------
 
 # Open main game window
-size = (1280, 720)
-mainSurface = pygame.display.set_mode(size)
+screenSize = (1280, 720)
+mainSurface = pygame.display.set_mode(screenSize)
 tileSurface = mainSurface.subsurface((0, 0, 1280, 720))
 pygame.display.set_caption("Pyrarria")
 
 #initialize player
-player = player.Player(mainSurface)
+player = player.Player(mainSurface, screenSize[0]/2, screenSize[1]/2)
 
 #generate tiles
 tileGrid = tiles.generateTiles(tileSurface)

@@ -20,9 +20,9 @@ class Tile(pygame.sprite.Sprite):
 
 		tiles.add(self)
 
-
-	def update(self):
-		self.surface.blit(self.image, (self.x, self.y))
+	def updatePos(self, x = self.x, y = self.y):
+		self.rect.x = x
+		self.rect.y = y
 
 
 class Dirt(Tile):

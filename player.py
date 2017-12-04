@@ -1,8 +1,8 @@
 import pygame
 
 class Player():
-	x = 640
-	y = 300
+	x = 0
+	y = 0
 	moveSpeed = 5
 	gravitySpeed = 5
 
@@ -17,12 +17,14 @@ class Player():
 	jumping = False
 	canJump = False
 
-	def __init__(self, surface):
+	def __init__(self, surface, x, y):
 		# Call pygame sprite init method
 		super().__init__()
 		self.surface = surface
 		self.image = pygame.image.load(".\\assets\\player.png", ).convert_alpha() #load a sprite image
 		self.rect = self.image.get_rect() # set collision rectangle		
+		self.x = x
+		self.y = y
 
 	def updatePos(self):
 		self.rect.x = self.x
