@@ -2,12 +2,56 @@ import pygame
 import utils
 from random import randint
 
-tiles = pygame.sprite.Group()
+class TileSurface():
+	x = 0
+	y = 0
+
+	tileGroup = pygame.sprite.Group()
+
+	tileGrid = []
+
+	def __init__(self, mainSurface, x, y):
+		self.x = x
+		self.y = y
+		self.surface = mainSurface.subsurface((0, 0, x, y))
+
+	def updatePos(self, x, y):
+		x = int(x)
+		y = int(y)
+		self.surface.scroll(self.x + x, self.y + y)
+		self.x = x
+		self.y = y
+
+	def generateTiles(self):
+		tiles = []
+		x = 0
+		y = 368
+
+		for i in range(0, 99):
+			row = []
+			for j in range(0, 99):
+				newTile = Dirt(x, y, self)
+				newTile.rect.x = x
+				newTile.rect.y = y
+				row.append(newTile)
+				x += 16
+			x = 0
+			y += 16
+			tiles.append(row)
+
+		self.tileGrid = tiles
+
+	def drawTiles(self):
+		for i in range(0, len(self.tileGrid)):
+			for j in range(0, len(self.tileGrid[i])):
+				self.tileGrid[i][j].update()
+
+
+
 
 class Tile(pygame.sprite.Sprite):
 	x = 0
 	y = 0
-	enabled = True
 
 	def __init__(self, sprite, x, y, surface):
 		# Call pygame sprite init method
@@ -16,13 +60,13 @@ class Tile(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect() # set collision rectangle		
 		self.x = x
 		self.y = y
-		self.surface = surface
+		self.parentSurface = surface
 
-		tiles.add(self)
+		self.parentSurface.tileGroup.add(self)
 
-	def updatePos(self, x = self.x, y = self.y):
-		self.rect.x = x
-		self.rect.y = y
+	def update(self):
+		self.parentSurface.surface.blit(self.image, (self.x, self.y))			
+
 
 
 class Dirt(Tile):
@@ -33,29 +77,3 @@ class Dirt(Tile):
 class Air(Tile):
 	def __init__(self, x, y, surface):
 		super().__init__(".\\assets\\air.png", x, y, surface)
-	
-
-def generateTiles(surface):
-	tiles = []
-	x = 0
-	y = 368
-
-	for i in range(0, 99):
-		row = []
-		for j in range(0, 99):
-			newTile = Dirt(x, y, surface)
-			newTile.rect.x = x
-			newTile.rect.y = y
-			row.append(newTile)
-			x += 16
-		x = 0
-		y += 16
-		tiles.append(row)
-
-	return tiles
-
-
-def drawTiles(tileArray):
-	for i in range(0, len(tileArray)):
-		for j in range(0, len(tileArray[i])):
-			tileArray[i][j].update()

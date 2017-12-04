@@ -4,8 +4,12 @@ import player
 import tiles
 
 pygame.init()
+pygame.font.init()
 
 # -------- Global Variables -----------
+
+# --- Fonts ---
+arial = pygame.font.SysFont('Arial Rounded MT Bold', 30)
 
 # --- Colours ---
 BLACK = (0, 0, 0)
@@ -19,14 +23,14 @@ BGCOLOUR = (153, 255, 255)
 # Open main game window
 screenSize = (1280, 720)
 mainSurface = pygame.display.set_mode(screenSize)
-tileSurface = mainSurface.subsurface((0, 0, 1280, 720))
+tileSurface = tiles.TileSurface(mainSurface, screenSize[0], screenSize[1])
 pygame.display.set_caption("Pyrarria")
 
 #initialize player
 player = player.Player(mainSurface, screenSize[0]/2, screenSize[1]/2)
 
 #generate tiles
-tileGrid = tiles.generateTiles(tileSurface)
+tileSurface.generateTiles()
 
 running = True
  
@@ -36,7 +40,7 @@ clock = pygame.time.Clock()
 #draw stuff for the first time
 mainSurface.fill(BGCOLOUR)
 mainSurface.blit(player.image, (player.x, player.y))
-tiles.drawTiles(tileGrid)
+tileSurface.drawTiles()
 pygame.display.flip()
 
 # -------- Main Program Loop -----------
@@ -66,11 +70,11 @@ while running:
 
     # gravity effects
     if player.jumping == False:
-        player.y += player.gravitySpeed
+        player.y += player.gravitySpeed       
         player.updatePos()
 
     #If colliding with tiles, sit on top rather than clip within
-    collidingTiles = pygame.sprite.spritecollide(player, tiles.tiles, False)
+    collidingTiles = pygame.sprite.spritecollide(player, tileSurface.tileGroup, False)
     if len(collidingTiles) > 0:
         player.y = collidingTiles[0].y - player.rect.height
         player.updatePos()
@@ -81,7 +85,7 @@ while running:
     #movement logic
     if player.jumping == True:
         player.y -= player.jumpSpeedTracker
-        player.jumpHeightTracker += player.jumpSpeedTracker
+        player.jumpHeightTracker += player.jumpSpeedTracker  
         player.updatePos()
         #slow down towards top of jump
         if player.jumpHeightTracker > player.jumpHeight / 2:
@@ -97,13 +101,13 @@ while running:
     if player.moveLeft: player.x -= player.moveSpeed
     player.updatePos()
 
+    # --- Drawing Logic ---    
+
     #draw player
     drawList.append(mainSurface.blit(player.image, (player.x, player.y)))
 
-    # --- Drawing Logic ---    
-
     #update tile surface
-    drawList.append(mainSurface.blit(tileSurface.convert(), (0, 0)))
+    drawList.append(mainSurface.blit(tileSurface.surface.convert(), (0, 0)))
 
     # Update main surface
     pygame.display.update(drawList)
