@@ -101,10 +101,10 @@ while running:
     # --- Drawing Logic ---    
 
     #draw player
-    drawList.append(mainSurface.blit(player.image, (player.x, player.y)))
+    drawList.append(mainSurface.blit(player.image, (640, 360)))
 
     #update tile surface
-    drawList.append(mainSurface.blit(tileSurface.surface.convert(), (tileSurface.x, tileSurface.y)))
+    drawList.append(mainSurface.blit(tileSurface.surface.convert(), (player.x + 640, player.y + 360)))
 
     # Update main surface
     pygame.display.update(drawList)
