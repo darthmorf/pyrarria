@@ -19,11 +19,11 @@ BGCOLOUR = (153, 255, 255)
 # Open main game window
 screenSize = (1280, 720)
 mainSurface = pygame.display.set_mode(screenSize)
-tileSurface = tiles.TileSurface(mainSurface, 0, 0, screenSize[0], screenSize[1])
+tileSurface = tiles.TileSurface(0, 0, screenSize[0], screenSize[1])
 pygame.display.set_caption("Pyrarria")
 
 #initialize player
-player = player.Player(mainSurface, screenSize[0]/2, screenSize[1]/2)
+player = player.Player(mainSurface, 640, 320)
 
 #generate tiles
 tileSurface.generateTiles()
@@ -62,22 +62,25 @@ while running:
     #clear the draw list
     drawList = []
 
+    player.oldX = player.x 
+    player.oldY = player.y 
+
     #draw bg over player position
     drawList.append(mainSurface.fill(BGCOLOUR, player.rect))
 
     # gravity effects
-    if player.jumping == False:
-        player.y += player.gravitySpeed       
-        player.updatePos()
+  #  if player.jumping == False:
+  #      player.y += player.gravitySpeed       
+  #      player.updatePos()
 
     #If colliding with tiles, sit on top rather than clip within
     collidingTiles = pygame.sprite.spritecollide(player, tileSurface.tileGroup, False)
-    if len(collidingTiles) > 0:
-        player.y = collidingTiles[0].y - player.rect.height
-        player.updatePos()
-        player.canJump = True
-    else:
-        player.canJump = False
+ #   if len(collidingTiles) > 0:
+ #       player.y = collidingTiles[0].y - player.rect.height
+ #       player.updatePos()
+ #       player.canJump = True
+ #   else:
+ #       player.canJump = False
         
     #movement logic
     if player.jumping == True:
@@ -98,13 +101,19 @@ while running:
     if player.moveLeft: player.x -= player.moveSpeed
     player.updatePos()
 
+    playerDx = player.x = player.oldX
+    playerDy = player.y = player.oldY
+
+    tileSurface.x += playerDx
+    tileSurface.y += playerDy
+
     # --- Drawing Logic ---    
 
-    #draw player
-    drawList.append(mainSurface.blit(player.image, (640, 360)))
-
     #update tile surface
-    drawList.append(mainSurface.blit(tileSurface.surface.convert(), (player.x + 640, player.y + 360)))
+    drawList.append(mainSurface.blit(tileSurface.surface.convert(), (tileSurface.x - 640, tileSurface.y - 320)))
+
+    #draw player
+    drawList.append(mainSurface.blit(player.image, (player.x, player.y)))
 
     # Update main surface
     pygame.display.update(drawList)

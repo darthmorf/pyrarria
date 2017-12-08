@@ -8,12 +8,12 @@ class TileSurface():
 
 	tileGrid = []
 
-	def __init__(self, mainSurface, x, y, width, height):
+	def __init__(self, x, y, width, height):
 		self.x = x
 		self.y = y
 		self.width = width
 		self.height = height
-		self.surface = mainSurface.subsurface((x, y, width, height))
+		self.surface = pygame.Surface((width, height))
 
 	def updatePos(self, x, y):
 		self.x = self.x
@@ -69,8 +69,8 @@ class Tile(pygame.sprite.Sprite):
 class Dirt(Tile):
 	def __init__(self, x, y, surface):
 		spriteVariant = randint(1, 3)
-		super().__init__(".\\assets\\dirt0" + str(spriteVariant) + ".png", x, y, surface)
+		super().__init__("./assets/dirt0" + str(spriteVariant) + ".png", x, y, surface)
 
 class Air(Tile):
 	def __init__(self, x, y, surface):
-		super().__init__(".\\assets\\air.png", x, y, surface)
+		super().__init__("./assets/air.png", x, y, surface)
