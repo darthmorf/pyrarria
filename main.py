@@ -18,12 +18,14 @@ BGCOLOUR = (153, 255, 255)
 
 # Open main game window
 screenSize = (1280, 720)
+center = (screenSize[0]/2, screenSize[1]/2 - 48)
 mainSurface = pygame.display.set_mode(screenSize)
-tileSurface = tiles.TileSurface(0, 0, screenSize[0], screenSize[1])
+screenRect = mainSurface.get_rect()
+tileSurface = tiles.TileSurface(0, 0, screenSize[0] * 3, screenSize[1] * 3)
 pygame.display.set_caption("Pyrarria")
 
 #initialize player
-player = player.Player(mainSurface, 640, 320)
+player = player.Player(mainSurface, 0, 0)
 
 #generate tiles
 tileSurface.generateTiles()
@@ -34,8 +36,7 @@ running = True
 clock = pygame.time.Clock()
 
 #draw stuff for the first time
-mainSurface.fill(BGCOLOUR)
-mainSurface.blit(player.image, (player.x, player.y))
+tileSurface.surface.fill(BGCOLOUR)
 tileSurface.drawTiles()
 pygame.display.flip()
 
@@ -57,30 +58,37 @@ while running:
             if event.key == pygame.K_d: player.moveRight = False
             if event.key == pygame.K_a: player.moveLeft = False
             #if event.key == pygame.K_SPACE: player.jumping = False
- 
-    # --- Game logic ---
+
+
+    # --- Pre Logic Drawing ---  
+
     #clear the draw list
     drawList = []
+
+    mainSurface.fill(BGCOLOUR)
 
     player.oldX = player.x 
     player.oldY = player.y 
 
     #draw bg over player position
-    drawList.append(mainSurface.fill(BGCOLOUR, player.rect))
+    drawList.append(tileSurface.surface.fill(BGCOLOUR, player.rect))
 
-    # gravity effects
-  #  if player.jumping == False:
-  #      player.y += player.gravitySpeed       
-  #      player.updatePos()
+
+    # --- Game logic ---
+
+    #gravity effects
+    if player.jumping == False:
+        player.y += player.gravitySpeed       
+        player.updatePos()
 
     #If colliding with tiles, sit on top rather than clip within
     collidingTiles = pygame.sprite.spritecollide(player, tileSurface.tileGroup, False)
- #   if len(collidingTiles) > 0:
- #       player.y = collidingTiles[0].y - player.rect.height
- #       player.updatePos()
- #       player.canJump = True
- #   else:
- #       player.canJump = False
+    if len(collidingTiles) > 0:
+        player.y = collidingTiles[0].y - player.rect.height
+        player.updatePos()
+        player.canJump = True
+    else:
+        player.canJump = False
         
     #movement logic
     if player.jumping == True:
@@ -101,19 +109,19 @@ while running:
     if player.moveLeft: player.x -= player.moveSpeed
     player.updatePos()
 
-    playerDx = player.x = player.oldX
-    playerDy = player.y = player.oldY
+    playerDx = player.x - player.oldX
+    playerDy = player.y - player.oldY
 
-    tileSurface.x += playerDx
-    tileSurface.y += playerDy
+    tileSurface.x -= playerDx
+    tileSurface.y -= playerDy
 
-    # --- Drawing Logic ---    
+    # --- Post Logic Drawing ---    
 
     #update tile surface
-    drawList.append(mainSurface.blit(tileSurface.surface.convert(), (tileSurface.x - 640, tileSurface.y - 320)))
+    drawList.append(mainSurface.blit(tileSurface.surface.convert(), (tileSurface.x + center[0], tileSurface.y + center[1])))
 
     #draw player
-    drawList.append(mainSurface.blit(player.image, (player.x, player.y)))
+    drawList.append(mainSurface.blit(player.image, center))
 
     # Update main surface
     pygame.display.update(drawList)

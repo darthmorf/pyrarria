@@ -15,6 +15,7 @@ class Player():
 	jumpHeight = 70
 	jumpHeightTracker = 0
 
+	height = 0
 
 	moveRight = False
 	moveLeft = False
@@ -29,6 +30,7 @@ class Player():
 		self.rect = self.image.get_rect() # set collision rectangle		
 		self.x = x
 		self.y = y
+		self.height = self.rect.height
 
 	def updatePos(self):
 		self.rect.x = self.x
