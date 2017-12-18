@@ -20,7 +20,6 @@ BGCOLOUR = (153, 255, 255)
 screenSize = (1280, 720)
 center = (screenSize[0]/2, screenSize[1]/2 - 48)
 mainSurface = pygame.display.set_mode(screenSize)
-screen = pygame.Surface(screenSize).get_rect()
 tileSurface = tiles.TileSurface(0, 0, screenSize[0] * 3, screenSize[1] * 3)
 pygame.display.set_caption("Pyrarria")
 
@@ -115,13 +114,11 @@ while running:
     tileSurface.x -= playerDx
     tileSurface.y -= playerDy
 
-    screen.x += playerDx
-    screen.y += playerDy
-
     # --- Post Logic Drawing ---    
 
-    #update tile surface
-    drawList.append(mainSurface.blit(tileSurface.surface.convert(), (tileSurface.x + center[0], tileSurface.y + center[1]), screen))
+    #update tile surfacea
+    screen = pygame.Rect(player.x - center[0], player.y - center[1], screenSize[0]*2, screenSize[1]*2)
+    drawList.append(mainSurface.blit(tileSurface.surface.convert(), (tileSurface.x, tileSurface.y + center[1]), screen))
 
     #draw player
     drawList.append(mainSurface.blit(player.image, center))
@@ -131,7 +128,6 @@ while running:
      
     # Set Framerate to 60fps
     clock.tick(60)
-
 
 #Once we have exited the main program loop we can stop the game engine:
 pygame.quit()

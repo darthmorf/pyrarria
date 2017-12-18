@@ -24,7 +24,7 @@ class TileSurface():
 		x = 0
 		y = 368
 
-		for i in range(0, 99):
+		for i in range(0, 150):
 			row = []
 			for j in range(0, 150):
 				newTile = Dirt(x, y, self)
